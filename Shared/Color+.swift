@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+// first commit
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
