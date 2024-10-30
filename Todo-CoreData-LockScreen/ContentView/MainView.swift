@@ -22,86 +22,117 @@ struct MainView: View {
         .onChange(of: scenePhase, perform: { newValue in
             WidgetCenter.shared.reloadAllTimelines()
         })
+        
+        .onOpenURL { url in
+            print(url)
+            handleURL(url)
+        }
+    }
+    private func handleURL(_ url: URL) {
+        guard url.scheme == "todo" else {
+            return
+        }
+        
+        if url.host == "todo" {
+            if url.pathComponents.count > 1 {
+                let appName = url.pathComponents[1]
+                openApp(appName)
+            }
+        } else {
+           print("fail")
+        }
+    }
+    
+    private func openApp(_ appName: String) {
+        let urlString = getURLString(for: appName)
+        print(urlString)
+        if let appURL = URL(string: urlString) {
+            print("trying")
+            UIApplication.shared.open(appURL, options: [:], completionHandler: nil)
+        }
+    }
+    
+    private func getURLString(for appName: String) -> String {
+        return AppLinks[appName] ?? ""
     }
 }
 
 private extension MainView {
-    var addTodoSection: some View {
-        Section("추가") {
-            HStack {
-                TextField("입력", text: $viewModel.userInput) {
-                    viewModel.didSubmitTextField()
-                }
-                Spacer()
-                Image(systemName: "x.circle")
-                    .onTapGesture {
-                        viewModel.didTapXbutton()
-                    }
-                    .opacity(0.6)
-                    .font(.subheadline)
-            }
-        }
-    }
+   var addTodoSection: some View {
+       Section("Add") {
+           HStack {
+               TextField("Enter", text: $viewModel.userInput) {
+                   viewModel.didSubmitTextField()
+               }
+               Spacer()
+               Image(systemName: "x.circle")
+                   .onTapGesture {
+                       viewModel.didTapXbutton()
+                   }
+                   .opacity(0.6)
+                   .font(.subheadline)
+           }
+       }
+   }
 
-    var inProgressTodoListSection: some View {
-        Section("진행중") {
-            ForEach(viewModel.inProgressTodoList, id: \.self) { todo in
-                HStack(spacing: 4) {
-                    Button {
-                        withAnimation {
-                            viewModel.didTapTodo(todo: todo)
-                        }
-                    } label: {
-                        Image(systemName: "square")
-                            .font(.caption)
-                    }
-                    Text(todo.title ?? "")
-                }
-                .foregroundColor(.black)
-                .opacity(0.8)
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button {
-                        withAnimation {
-                            viewModel.didSwipeTodo(todo: todo)
-                        }
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                    .tint(.red)
-                }
-            }
-        }
-    }
+   var inProgressTodoListSection: some View {
+       Section("In Progress") {
+           ForEach(viewModel.inProgressTodoList, id: \.self) { todo in
+               HStack(spacing: 4) {
+                   Button {
+                       withAnimation {
+                           viewModel.didTapTodo(todo: todo)
+                       }
+                   } label: {
+                       Image(systemName: "square")
+                           .font(.caption)
+                   }
+                   Text(todo.title ?? "")
+               }
+               .foregroundColor(.black)
+               .opacity(0.8)
+               .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                   Button {
+                       withAnimation {
+                           viewModel.didSwipeTodo(todo: todo)
+                       }
+                   } label: {
+                       Image(systemName: "trash")
+                   }
+                   .tint(.red)
+               }
+           }
+       }
+   }
 
-    var doneTodoListSection: some View {
-        Section("완료") {
-            ForEach(viewModel.doneTodoList, id: \.self) { todo in
-                HStack(spacing: 4) {
-                    Button {
-                        withAnimation {
-                            viewModel.didTapTodo(todo: todo)
-                        }
-                    } label: {
-                        Image(systemName: "checkmark.square")
-                            .font(.caption)
-                    }
-                    Text(todo.title ?? "")
-                        .strikethrough()
-                }
-                .foregroundColor(.black)
-                .opacity(0.6)
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button {
-                        withAnimation {
-                            viewModel.didSwipeTodo(todo: todo)
-                        }
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                    .tint(.red)
-                }
-
-            }
-        }
-    }
+   var doneTodoListSection: some View {
+       Section("Done") {
+           ForEach(viewModel.doneTodoList, id: \.self) { todo in
+               HStack(spacing: 4) {
+                   Button {
+                       withAnimation {
+                           viewModel.didTapTodo(todo: todo)
+                       }
+                   } label: {
+                       Image(systemName: "checkmark.square")
+                           .font(.caption)
+                   }
+                   Text(todo.title ?? "")
+                       .strikethrough()
+               }
+               .foregroundColor(.black)
+               .opacity(0.6)
+               .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                   Button {
+                       withAnimation {
+                           viewModel.didSwipeTodo(todo: todo)
+                       }
+                   } label: {
+                       Image(systemName: "trash")
+                   }
+                   .tint(.red)
+               }
+           }
+       }
+   }
 }

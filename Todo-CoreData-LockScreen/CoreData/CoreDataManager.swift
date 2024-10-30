@@ -108,6 +108,6 @@ extension CoreDataManager {
 }
 
 enum CoreData {
-    static let identifier = "group.com.kim.TodoLockScreen"
+    static let identifier = "group.com.imorshed.TodoLockScreen"
     static let databaseName = "DataModel.sqlite"
 }

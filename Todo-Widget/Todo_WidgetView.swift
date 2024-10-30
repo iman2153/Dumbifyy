@@ -15,8 +15,8 @@ struct Todo_WidgetEntryView : View {
     var body: some View {
         switch widgetFamily {
         // MARK: - LockScreenRectangle
-        case .accessoryCircular:
-            accessoryCircular
+//        case .accessoryCircular:
+//            accessoryCircular
         // MARK: - LockScreenRectangle
         case .accessoryRectangular:
             accessoryRectangular
@@ -29,12 +29,12 @@ struct Todo_WidgetEntryView : View {
 
 // MARK: - SubViews
 private extension Todo_WidgetEntryView {
-    var accessoryCircular: some View {
-        Gauge(value: calculateGaugeValue()) {
-            Text("TODO")
-        }
-        .gaugeStyle(.accessoryCircularCapacity)
-    }
+//    var accessoryCircular: some View {
+//        Gauge(value: calculateGaugeValue()) {
+//            Text("TODO")
+//        }
+//        .gaugeStyle(.accessoryCircularCapacity)
+//    }
 
     var accessoryRectangular: some View {
         Group {
@@ -63,49 +63,26 @@ private extension Todo_WidgetEntryView {
 
     @ViewBuilder
     var systemSmall: some View {
-        if entry.inProgressTodos.isEmpty {
-            ZStack {
-                VStack {
+        VStack {
+            ForEach(validateLenghtForWidget(), id: \.self) { todo in
+                Link(destination: URL(string: "todo://todo/\(todo.title ?? "Messages")")!){
                     HStack {
-                        Spacer()
-                        Text("투두")
-                            .font(.caption)
-                            .opacity(0.3)
-                    }
-                    Spacer()
-                }
-                Text("⚠️투두가 비었습니다")
-                    .fontWeight(.bold)
-                    .font(.title)
-                    .opacity(0.6)
-            }
-            .padding()
-        } else {
-            VStack {
-                HStack {
-                    Spacer()
-                    Text("투두")
-                        .font(.caption)
-                        .opacity(0.3)
-                }
-                ForEach(validateLenghtForWidget(), id: \.self) { todo in
-                    HStack(spacing: 2) {
-                        Image(systemName: "square")
-                            .font(.caption2)
                         Text(todo.title ?? "")
-                            .font(.subheadline)
-                            .lineLimit(1)
+                            .font(.system(size:30))
+                            .bold()
+                            .colorInvert()
                         Spacer()
                     }
                     .foregroundColor(.black)
                     .opacity(0.8)
                 }
-                Spacer()
             }
-            .padding()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(hex: "#212121"))
         }
     }
-}
+
 
 // MARK: - Functions
 private extension Todo_WidgetEntryView {
