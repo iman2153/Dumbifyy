@@ -19,10 +19,10 @@ struct MainView: View {
             doneTodoListSection
         }
         .listStyle(.inset)
+        .background(Color.black)
         .onChange(of: scenePhase, perform: { newValue in
             WidgetCenter.shared.reloadAllTimelines()
         })
-        
         .onOpenURL { url in
             print(url)
             handleURL(url)
@@ -89,7 +89,6 @@ private extension MainView {
                    }
                    Text(todo.title ?? "")
                }
-               .foregroundColor(.black)
                .opacity(0.8)
                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                    Button {
@@ -104,7 +103,6 @@ private extension MainView {
            }
        }
    }
-
    var doneTodoListSection: some View {
        Section("Done") {
            ForEach(viewModel.doneTodoList, id: \.self) { todo in
@@ -120,7 +118,6 @@ private extension MainView {
                    Text(todo.title ?? "")
                        .strikethrough()
                }
-               .foregroundColor(.black)
                .opacity(0.6)
                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                    Button {
