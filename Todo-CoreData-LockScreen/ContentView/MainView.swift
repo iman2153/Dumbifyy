@@ -11,23 +11,23 @@ import WidgetKit
 struct MainView: View {
     @Environment(\.scenePhase) var scenePhase
     @ObservedObject var viewModel = MainViewModel()
-
     var body: some View {
-        List {
-            addTodoSection
-            inProgressTodoListSection
-            doneTodoListSection
+            List {
+                addTodoSection
+                inProgressTodoListSection
+                doneTodoListSection
+            }
+            .onChange(of: scenePhase, perform: { newValue in
+                WidgetCenter.shared.reloadAllTimelines()
+            })
+            .onOpenURL { url in
+                print(url)
+                handleURL(url)
+            }
+            .background(Color.black)
+            .listStyle(GroupedListStyle())
+            .environment(\.colorScheme, .dark)
         }
-        .listStyle(.inset)
-        .background(Color.black)
-        .onChange(of: scenePhase, perform: { newValue in
-            WidgetCenter.shared.reloadAllTimelines()
-        })
-        .onOpenURL { url in
-            print(url)
-            handleURL(url)
-        }
-    }
     private func handleURL(_ url: URL) {
         guard url.scheme == "todo" else {
             return
@@ -41,6 +41,7 @@ struct MainView: View {
         } else {
            print("fail")
         }
+        
     }
     
     private func openApp(_ appName: String) {
@@ -76,7 +77,7 @@ private extension MainView {
    }
 
    var inProgressTodoListSection: some View {
-       Section("In Progress") {
+       Section("Apps in the widget") {
            ForEach(viewModel.inProgressTodoList, id: \.self) { todo in
                HStack(spacing: 4) {
                    Button {
@@ -89,7 +90,6 @@ private extension MainView {
                    }
                    Text(todo.title ?? "")
                }
-               .opacity(0.8)
                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                    Button {
                        withAnimation {
@@ -118,6 +118,7 @@ private extension MainView {
                    Text(todo.title ?? "")
                        .strikethrough()
                }
+
                .opacity(0.6)
                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                    Button {
