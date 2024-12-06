@@ -15,7 +15,6 @@ struct MainView: View {
             List {
                 addTodoSection
                 inProgressTodoListSection
-                doneTodoListSection
             }
             .onChange(of: scenePhase, perform: { newValue in
                 WidgetCenter.shared.reloadAllTimelines()
@@ -59,35 +58,47 @@ struct MainView: View {
 }
 
 private extension MainView {
-   var addTodoSection: some View {
-       Section("Add") {
-           HStack {
-               TextField("Enter", text: $viewModel.userInput) {
-                   viewModel.didSubmitTextField()
-               }
-               Spacer()
-               Image(systemName: "x.circle")
-                   .onTapGesture {
-                       viewModel.didTapXbutton()
-                   }
-                   .opacity(0.6)
-                   .font(.subheadline)
-           }
-       }
-   }
-
+    var addTodoSection: some View {
+        Section("Add") {
+            VStack {
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                    TextField("Enter", text: $viewModel.userInput) {
+                        viewModel.didSubmitTextField()
+                    }
+                    Spacer()
+                    Image(systemName: "x.circle")
+                        .onTapGesture {
+                            viewModel.didTapXbutton()
+                        }
+                        .opacity(0.6)
+                        .font(.subheadline)
+                }
+                
+                // Show filtered AppLinks keys only when typing
+                if !viewModel.userInput.isEmpty {
+                    ForEach(Array(AppLinks.keys).filter {
+                        $0.localizedCaseInsensitiveContains(viewModel.userInput)
+                    }, id: \.self) { key in
+                        HStack(spacing: 4) {
+                            Text(key)
+                                .foregroundColor(.gray)
+                                .onTapGesture {
+                                    viewModel.userInput = key
+                                    viewModel.didSubmitTextField()
+                                }
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+            }
+        }
+    }
    var inProgressTodoListSection: some View {
        Section("Apps in the widget") {
            ForEach(viewModel.inProgressTodoList, id: \.self) { todo in
                HStack(spacing: 4) {
-                   Button {
-                       withAnimation {
-                           viewModel.didTapTodo(todo: todo)
-                       }
-                   } label: {
-                       Image(systemName: "square")
-                           .font(.caption)
-                   }
                    Text(todo.title ?? "")
                }
                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
