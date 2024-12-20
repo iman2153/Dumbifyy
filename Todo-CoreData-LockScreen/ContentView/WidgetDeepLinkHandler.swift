@@ -5,17 +5,8 @@ struct WidgetDeepLinkHandler: View {
     
     var body: some View {
         Group {
-            if shouldShowEmptyView {
-                
-                EmptyView()
-                
-                    .onTapGesture {
-                        
-                    }
-            } else {
-                MainView()
+            MainTabView(tabNumber: .constant(0))
             }
-        }
         .onOpenURL { url in
             handleURL(url)
         }

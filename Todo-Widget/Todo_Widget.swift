@@ -51,6 +51,6 @@ struct Todo_Widget: Widget {
         }
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
-        .supportedFamilies([.accessoryCircular, .accessoryRectangular, .systemLarge])
+        .supportedFamilies([.systemLarge])
     }
 }
