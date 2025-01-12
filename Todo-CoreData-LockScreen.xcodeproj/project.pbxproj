@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C52B6F12D33A5A0004EA5BA /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8C52B6F02D33A5A0004EA5BA /* SuperwallKit */; };
 		8C545A9F2D0426890040B897 /* WelcomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C545A9E2D0426890040B897 /* WelcomSheet.swift */; };
 		8C545AA22D04FDBD0040B897 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C545AA12D04FDBD0040B897 /* TabView.swift */; };
 		8C7315BE2CE93D3800A538B2 /* WidgetDeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7315BD2CE93D3800A538B2 /* WidgetDeepLinkHandler.swift */; };
@@ -107,6 +108,7 @@
 			files = (
 				8CAB78F02D13FC5400A7A331 /* RevenueCatUI in Frameworks */,
 				8CAB78EE2D13FC5400A7A331 /* RevenueCat in Frameworks */,
+				8C52B6F12D33A5A0004EA5BA /* SuperwallKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +278,7 @@
 			packageProductDependencies = (
 				8CAB78ED2D13FC5400A7A331 /* RevenueCat */,
 				8CAB78EF2D13FC5400A7A331 /* RevenueCatUI */,
+				8C52B6F02D33A5A0004EA5BA /* SuperwallKit */,
 			);
 			productName = "Todo-CoreData-LockScreen";
 			productReference = C6D34D6D28F5B8D200D0AD70 /* Todo-CoreData-LockScreen.app */;
@@ -327,6 +330,7 @@
 			mainGroup = C6D34D6428F5B8D200D0AD70;
 			packageReferences = (
 				8CAB78EC2D13FC5400A7A331 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+				8C52B6EF2D33A5A0004EA5BA /* XCRemoteSwiftPackageReference "Superwall-iOS" */,
 			);
 			productRefGroup = C6D34D6E28F5B8D200D0AD70 /* Products */;
 			projectDirPath = "";
@@ -696,6 +700,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8C52B6EF2D33A5A0004EA5BA /* XCRemoteSwiftPackageReference "Superwall-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/superwall/Superwall-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.12.2;
+			};
+		};
 		8CAB78EC2D13FC5400A7A331 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
@@ -707,6 +719,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8C52B6F02D33A5A0004EA5BA /* SuperwallKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C52B6EF2D33A5A0004EA5BA /* XCRemoteSwiftPackageReference "Superwall-iOS" */;
+			productName = SuperwallKit;
+		};
 		8CAB78ED2D13FC5400A7A331 /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8CAB78EC2D13FC5400A7A331 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;

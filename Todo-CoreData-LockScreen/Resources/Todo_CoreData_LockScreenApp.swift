@@ -1,12 +1,14 @@
 import SwiftUI
 import RevenueCat
 import RevenueCatUI
+import SuperwallKit
 
 @main
 struct Todo_CoreData_LockScreenApp: App {
     @StateObject private var subscriptionManager = SubscriptionManager()
     
     init() {
+        Superwall.configure(apiKey: "pk_3598ba6a18719bbbf1ae9baaac9e357ad44f9550acddf03c")
         Purchases.configure(withAPIKey: "appl_TYitkunNHvNCYTLSXadiDOeYSkK")
         
         #if DEBUG
